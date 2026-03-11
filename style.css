@@ -1,21 +1,30 @@
-body {
-    font-family: 'Arial', sans-serif;
-    background: #2c3e50;
-    margin: 0;
-    padding: 20px;
+.menu-bar {
+    display: flex;
+    gap: 10px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.menu-btn {
+    padding: 12px 25px;
+    background: #34495e;
+    border: 2px solid #f1c40f;
     color: white;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: 0.3s;
 }
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
+.menu-btn:hover {
+    background: #f1c40f;
+    color: #2c3e50;
 }
-h1 {
-    text-align: center;
-    color: #f1c40f;
-    font-size: 36px;
-    text-shadow: 2px 2px 0 #000;
+.menu-btn.active {
+    background: #f1c40f;
+    color: #2c3e50;
 }
-#products {
+.products-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 20px;
@@ -26,36 +35,38 @@ h1 {
     padding: 20px;
     border-radius: 15px;
     border: 3px solid #f1c40f;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    cursor: pointer;
+    transition: 0.3s;
+    position: relative;
 }
-.cat {
-    color: #f1c40f;
-    font-size: 12px;
-    text-transform: uppercase;
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(241, 196, 15, 0.3);
 }
-.name {
-    font-size: 22px;
-    margin: 10px 0;
+.desc {
+    color: #bdc3c7;
+    font-size: 13px;
+    margin: 8px 0;
+}
+.buy-btn {
+    width: 100%;
+    padding: 10px;
+    background: #2ecc71;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    margin-top: 15px;
+    cursor: pointer;
     font-weight: bold;
+    font-size: 16px;
 }
-.price {
-    color: #2ecc71;
-    font-size: 24px;
-    font-weight: bold;
+.buy-btn:hover {
+    background: #27ae60;
 }
-.tg-link {
+.empty {
     text-align: center;
-    padding: 20px;
-    background: #34495e;
-    border-radius: 10px;
-    margin-top: 30px;
-    border: 2px solid #f1c40f;
-}
-a {
+    padding: 50px;
+    font-size: 20px;
     color: #f1c40f;
-    text-decoration: none;
-    font-weight: bold;
-}
-a:hover {
-    text-decoration: underline;
+    grid-column: 1/-1;
 }
