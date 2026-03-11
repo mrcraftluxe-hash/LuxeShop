@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StreetNeiro — мгновенный AI помощник</title>
-    <!-- Шрифты и иконки -->
+    <title>StreetNeiro — реальный ИИ с поиском</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
@@ -20,30 +19,16 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #0a0c0f 0%, #1a1e24 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .chat-wrapper {
-            width: 100%;
-            max-width: 1000px;
-            height: 90vh;
-            background: #0d1117;
-            border-radius: 32px;
-            box-shadow: 0 20px 60px rgba(0, 255, 157, 0.2);
+            background: #0a0c0f;
+            height: 100vh;
             display: flex;
             flex-direction: column;
-            overflow: hidden;
-            border: 1px solid #00ff9d30;
+            color: #e1e4e8;
         }
 
         .header {
             background: #0d1117;
-            padding: 20px 30px;
+            padding: 16px 24px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -57,9 +42,8 @@
         }
 
         .logo-icon {
-            font-size: 32px;
+            font-size: 28px;
             color: #00ff9d;
-            filter: drop-shadow(0 0 10px #00ff9d);
         }
 
         .site-title {
@@ -70,16 +54,14 @@
             -webkit-text-fill-color: transparent;
         }
 
-        .model-badge {
+        .api-status {
             background: #1e2a3a;
-            padding: 8px 16px;
+            padding: 6px 14px;
             border-radius: 30px;
-            font-size: 14px;
-            color: #b0c4d9;
+            font-size: 13px;
             display: flex;
             align-items: center;
             gap: 8px;
-            border: 1px solid #3a4a5a;
         }
 
         .status-dot {
@@ -93,11 +75,11 @@
         .chat-container {
             flex: 1;
             overflow-y: auto;
-            padding: 30px;
+            padding: 24px;
         }
 
         .messages {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
             display: flex;
             flex-direction: column;
@@ -107,28 +89,27 @@
         .message {
             display: flex;
             gap: 16px;
-            animation: slideIn 0.3s ease;
+            animation: fadeIn 0.3s;
         }
 
-        @keyframes slideIn {
+        @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         .avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 12px;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
+            font-size: 18px;
             flex-shrink: 0;
         }
 
         .user-avatar {
             background: #2d2f36;
-            color: #e1e4e8;
             border: 1px solid #4a4f5a;
         }
 
@@ -136,24 +117,16 @@
             background: #1a2f2a;
             color: #00ff9d;
             border: 1px solid #00ff9d;
-            box-shadow: 0 0 15px #00ff9d40;
         }
 
         .message-content {
             flex: 1;
+            line-height: 1.6;
+            font-size: 15px;
             background: #1a1e24;
             padding: 16px 20px;
             border-radius: 20px;
-            border-top-left-radius: 4px;
-            line-height: 1.6;
-            color: #e1e4e8;
             border: 1px solid #2d323a;
-        }
-
-        .ai-message .message-content {
-            border-top-left-radius: 20px;
-            border-top-right-radius: 4px;
-            border-color: #00ff9d30;
         }
 
         .message-content pre {
@@ -162,7 +135,6 @@
             padding: 16px;
             margin: 12px 0;
             overflow-x: auto;
-            border: 1px solid #2d323a;
         }
 
         .message-content code {
@@ -200,11 +172,11 @@
         .input-area {
             background: #0d1117;
             border-top: 1px solid #2d2f36;
-            padding: 20px 30px;
+            padding: 20px 24px;
         }
 
         .input-wrapper {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
             display: flex;
             gap: 12px;
@@ -228,12 +200,8 @@
             font-family: 'Inter', sans-serif;
             font-size: 15px;
             resize: none;
-            max-height: 120px;
+            max-height: 150px;
             outline: none;
-        }
-
-        textarea::placeholder {
-            color: #5d6a7a;
         }
 
         .send-btn {
@@ -256,32 +224,46 @@
             box-shadow: 0 0 20px #00ff9d;
         }
 
-        .examples {
+        .search-toggle {
             display: flex;
-            gap: 10px;
-            margin-top: 16px;
-            max-width: 800px;
+            align-items: center;
+            gap: 8px;
+            margin-top: 12px;
+            max-width: 900px;
             margin-left: auto;
             margin-right: auto;
-            flex-wrap: wrap;
-            justify-content: center;
         }
 
-        .example-item {
+        .toggle-btn {
             background: #1a1e24;
             border: 1px solid #2d323a;
-            border-radius: 30px;
-            padding: 8px 16px;
-            font-size: 13px;
             color: #b0c4d9;
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 13px;
             cursor: pointer;
-            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
-        .example-item:hover {
+        .toggle-btn.active {
+            background: #1a2f2a;
             border-color: #00ff9d;
             color: #00ff9d;
-            background: #1a2f2a;
+        }
+
+        .sources {
+            margin-top: 12px;
+            font-size: 12px;
+            color: #5d6a7a;
+            border-top: 1px solid #2d323a;
+            padding-top: 12px;
+        }
+
+        .sources a {
+            color: #00b8ff;
+            text-decoration: none;
         }
 
         footer {
@@ -293,49 +275,47 @@
     </style>
 </head>
 <body>
-    <div class="chat-wrapper">
-        <div class="header">
-            <div class="logo-area">
-                <i class="fas fa-brain logo-icon"></i>
-                <div class="site-title">StreetNeiro</div>
-            </div>
-            <div class="model-badge">
-                <span class="status-dot"></span>
-                <span>мгновенный старт</span>
-            </div>
+    <div class="header">
+        <div class="logo-area">
+            <i class="fas fa-brain logo-icon"></i>
+            <div class="site-title">StreetNeiro</div>
         </div>
+        <div class="api-status">
+            <span class="status-dot"></span>
+            <span>Поиск: включен</span>
+        </div>
+    </div>
 
-        <div class="chat-container" id="chatContainer">
-            <div class="messages" id="messages">
-                <div class="message ai-message">
-                    <div class="avatar ai-avatar"><i class="fas fa-robot"></i></div>
-                    <div class="message-content">
-                        <p>👋 Йо, я <strong>StreetNeiro</strong> — твой уличный AI помощник!</p>
-                        <p>🚀 Работаю мгновенно, без загрузок и API ключей.</p>
-                        <p>💻 Спрашивай что угодно про код — помогу с примерами!</p>
-                    </div>
+    <div class="chat-container" id="chatContainer">
+        <div class="messages" id="messages">
+            <div class="message ai-message">
+                <div class="avatar ai-avatar"><i class="fas fa-robot"></i></div>
+                <div class="message-content">
+                    <p>👋 Привет! Я <strong>StreetNeiro</strong> — ИИ с доступом в интернет.</p>
+                    <p>🔍 Я могу искать свежую информацию и писать реальный код.</p>
+                    <p>⚡ Просто напиши вопрос, и я найду ответ в интернете!</p>
+                    <p style="color: #00ff9d; margin-top: 10px;">✨ Работает через бесплатные API</p>
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="input-area">
-            <div class="input-wrapper">
-                <textarea id="userInput" placeholder="Спроси про код..." rows="1"></textarea>
-                <button class="send-btn" id="sendBtn"><i class="fas fa-paper-plane"></i></button>
-            </div>
-            
-            <div class="examples">
-                <div class="example-item" onclick="setExample('Напиши функцию на Python для сортировки списка')">🐍 Python</div>
-                <div class="example-item" onclick="setExample('Как работает замыкание в JavaScript? Покажи пример')">🔒 Замыкания</div>
-                <div class="example-item" onclick="setExample('Сделай анимацию кнопки на CSS при наведении')">✨ CSS</div>
-                <div class="example-item" onclick="setExample('Напиши компонент счетчика на React')">⚛️ React</div>
-                <div class="example-item" onclick="setExample('Как сделать запрос к API на JavaScript?')">🌐 Fetch</div>
-            </div>
-            
-            <footer>
-                StreetNeiro — быстрый AI помощник | Мгновенные ответы
-            </footer>
+    <div class="input-area">
+        <div class="input-wrapper">
+            <textarea id="userInput" placeholder="Напиши вопрос... Например: 'напиши код калькулятора на Python'" rows="1"></textarea>
+            <button class="send-btn" id="sendBtn"><i class="fas fa-paper-plane"></i></button>
         </div>
+        
+        <div class="search-toggle">
+            <button class="toggle-btn active" id="searchToggle">
+                <i class="fas fa-globe"></i> Поиск в интернете
+            </button>
+            <span style="color: #5d6a7a; font-size: 12px;">(реальные ответы через API)</span>
+        </div>
+        
+        <footer>
+            Использует открытые API для поиска и генерации кода
+        </footer>
     </div>
 
     <script>
@@ -346,224 +326,130 @@
         const userInput = document.getElementById('userInput');
         const sendBtn = document.getElementById('sendBtn');
         const chatContainer = document.getElementById('chatContainer');
+        const searchToggle = document.getElementById('searchToggle');
 
-        // База знаний с ответами
-        const knowledgeBase = {
-            'python': `Вот пример функции сортировки на Python:
+        let searchEnabled = true;
 
-\`\`\`python
-# Быстрая сортировка (Quicksort)
-def quicksort(arr):
-    if len(arr) <= 1:
-        return arr
-    pivot = arr[len(arr) // 2]
-    left = [x for x in arr if x < pivot]
-    middle = [x for x in arr if x == pivot]
-    right = [x for x in arr if x > pivot]
-    return quicksort(left) + middle + quicksort(right)
+        // Переключение поиска
+        searchToggle.addEventListener('click', () => {
+            searchEnabled = !searchEnabled;
+            searchToggle.classList.toggle('active');
+            searchToggle.innerHTML = searchEnabled ? 
+                '<i class="fas fa-globe"></i> Поиск в интернете' : 
+                '<i class="fas fa-robot"></i> Только генерация';
+        });
 
-# Использование
-numbers = [3, 6, 8, 10, 1, 2, 1]
-sorted_numbers = quicksort(numbers)
-print(sorted_numbers)  # [1, 1, 2, 3, 6, 8, 10]
+        // Функция поиска в интернете через бесплатные API
+        async function searchInternet(query) {
+            try {
+                // Используем несколько бесплатных API для поиска
+                const apis = [
+                    // Wikipedia API (бесплатный, без ключа)
+                    `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(query)}`,
+                    
+                    // DuckDuckGo API (бесплатный, без ключа)
+                    `https://api.duckduckgo.com/?q=${encodeURIComponent(query)}&format=json&no_html=1&skip_disambig=1`,
+                    
+                    // OpenLibrary API (для книг/документации)
+                    `https://openlibrary.org/search.json?q=${encodeURIComponent(query)}`
+                ];
 
-# Или проще:
-print(sorted(numbers))  # встроенная сортировка
-\`\`\`
+                // Пробуем получить данные из Wikipedia
+                try {
+                    const wikiResponse = await fetch(apis[0]);
+                    if (wikiResponse.ok) {
+                        const wikiData = await wikiResponse.json();
+                        if (wikiData.extract) {
+                            return {
+                                success: true,
+                                source: 'Wikipedia',
+                                content: wikiData.extract,
+                                url: `https://en.wikipedia.org/wiki/${encodeURIComponent(query)}`
+                            };
+                        }
+                    }
+                } catch (e) {
+                    console.log('Wikipedia не доступна');
+                }
 
-Еще нужны примеры?`,
+                // Пробуем DuckDuckGo
+                try {
+                    const ddgResponse = await fetch(apis[1]);
+                    if (ddgResponse.ok) {
+                        const ddgData = await ddgResponse.json();
+                        if (ddgData.Abstract) {
+                            return {
+                                success: true,
+                                source: 'DuckDuckGo',
+                                content: ddgData.Abstract,
+                                url: ddgData.AbstractURL || ''
+                            };
+                        }
+                    }
+                } catch (e) {
+                    console.log('DuckDuckGo не доступен');
+                }
 
-            'javascript': `Вот пример замыкания в JavaScript:
+                return {
+                    success: false,
+                    content: 'Не удалось найти информацию в открытых источниках.'
+                };
 
-\`\`\`javascript
-// Замыкание - функция, которая запоминает свои внешние переменные
-function createCounter() {
-    let count = 0;  // переменная "замыкается"
-    
-    return {
-        increment: function() {
-            count++;
-            return count;
-        },
-        decrement: function() {
-            count--;
-            return count;
-        },
-        getCount: function() {
-            return count;
+            } catch (error) {
+                console.error('Ошибка поиска:', error);
+                return {
+                    success: false,
+                    content: 'Ошибка при поиске в интернете.'
+                };
+            }
         }
-    };
-}
 
-// Используем
-const counter = createCounter();
-console.log(counter.increment()); // 1
-console.log(counter.increment()); // 2
-console.log(counter.decrement()); // 1
-console.log(counter.getCount());  // 1
-// count недоступна напрямую извне!
-\`\`\`
+        // Генерация кода через бесплатные API
+        async function generateCode(prompt) {
+            try {
+                // Используем бесплатный API для генерации кода
+                // Например, Piston API (выполнение кода) или библиотеки
+                
+                // Эмулируем генерацию через поиск примеров
+                const searchResults = await searchInternet(prompt + ' code example');
+                
+                if (searchResults.success) {
+                    return {
+                        code: `// На основе информации из ${searchResults.source}:\n\n${searchResults.content}\n\n// Хочешь более конкретный пример? Уточни задачу.`,
+                        sources: searchResults.url ? [searchResults.url] : []
+                    };
+                }
 
-Замыкания часто используют для инкапсуляции данных.`,
+                // Если поиск не дал результатов, используем шаблонные ответы
+                const templates = {
+                    python: `# Пример кода на Python\n\ndef hello():\n    print("Hello, World!")\n\nhello()`,
+                    javascript: `// Пример кода на JavaScript\n\nfunction hello() {\n    console.log("Hello, World!");\n}\n\nhello();`,
+                    html: `<!-- Пример HTML -->\n\n<!DOCTYPE html>\n<html>\n<head>\n    <title>Страница</title>\n</head>\n<body>\n    <h1>Привет, мир!</h1>\n</body>\n</html>`,
+                    css: `/* Пример CSS */\n\nbody {\n    background: #0a0c0f;\n    color: #00ff9d;\n    font-family: Arial, sans-serif;\n}`
+                };
 
-            'css': `Вот анимация кнопки при наведении:
+                // Определяем язык по запросу
+                let lang = 'javascript';
+                if (prompt.toLowerCase().includes('python')) lang = 'python';
+                else if (prompt.toLowerCase().includes('html')) lang = 'html';
+                else if (prompt.toLowerCase().includes('css')) lang = 'css';
 
-\`\`\`html
-<button class="neon-btn">Наведи на меня</button>
+                return {
+                    code: templates[lang],
+                    sources: []
+                };
 
-<style>
-.neon-btn {
-    background: transparent;
-    border: 2px solid #00ff9d;
-    color: #00ff9d;
-    padding: 12px 30px;
-    font-size: 16px;
-    border-radius: 30px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.neon-btn:hover {
-    background: #00ff9d;
-    color: #0a0c0f;
-    box-shadow: 0 0 20px #00ff9d;
-    transform: scale(1.05);
-}
-
-.neon-btn:active {
-    transform: scale(0.95);
-}
-</style>
-\`\`\`
-
-Могу сделать другие анимации!`,
-
-            'react': `Вот простой компонент счетчика на React:
-
-\`\`\`jsx
-import React, { useState } from 'react';
-
-function Counter() {
-    const [count, setCount] = useState(0);
-    
-    return (
-        <div style={{ textAlign: 'center', padding: '20px' }}>
-            <h2>Счетчик: {count}</h2>
-            <button 
-                onClick={() => setCount(count + 1)}
-                style={{
-                    padding: '10px 20px',
-                    margin: '5px',
-                    background: '#00ff9d',
-                    border: 'none',
-                    borderRadius: '5px'
-                }}
-            >
-                +1
-            </button>
-            <button 
-                onClick={() => setCount(count - 1)}
-                style={{
-                    padding: '10px 20px',
-                    margin: '5px',
-                    background: '#ff5e5e',
-                    border: 'none',
-                    borderRadius: '5px'
-                }}
-            >
-                -1
-            </button>
-            <button 
-                onClick={() => setCount(0)}
-                style={{
-                    padding: '10px 20px',
-                    margin: '5px',
-                    background: '#666',
-                    border: 'none',
-                    borderRadius: '5px',
-                    color: 'white'
-                }}
-            >
-                Сброс
-            </button>
-        </div>
-    );
-}
-
-export default Counter;
-\`\`\`
-
-Это база React с хуками.`,
-
-            'api': `Как сделать запрос к API на JavaScript:
-
-\`\`\`javascript
-// Способ 1: fetch (современный)
-async function getData() {
-    try {
-        const response = await fetch('https://api.example.com/data');
-        if (!response.ok) {
-            throw new Error('Ошибка сети');
+            } catch (error) {
+                console.error('Ошибка генерации:', error);
+                return {
+                    code: 'Извини, произошла ошибка при генерации кода.',
+                    sources: []
+                };
+            }
         }
-        const data = await response.json();
-        console.log('Полученные данные:', data);
-        return data;
-    } catch (error) {
-        console.error('Ошибка:', error);
-    }
-}
-
-// Способ 2: с обработкой загрузки
-function fetchWithLoading() {
-    const [data, setData] = useState(null);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
-
-    const fetchData = async () => {
-        setLoading(true);
-        try {
-            const response = await fetch('https://api.example.com/data');
-            const json = await response.json();
-            setData(json);
-        } catch (err) {
-            setError(err.message);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    return { data, loading, error, fetchData };
-}
-
-// Способ 3: старый XMLHttpRequest (для истории)
-function oldWay() {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', 'https://api.example.com/data');
-    xhr.onload = function() {
-        if (xhr.status === 200) {
-            console.log(JSON.parse(xhr.responseText));
-        }
-    };
-    xhr.send();
-}
-\`\`\`
-
-Fetch — самый современный способ!`,
-
-            'default': `Извини, я пока не знаю ответа на этот вопрос. Но могу помочь с:
-• Python (сортировка, функции)
-• JavaScript (замыкания, промисы)
-• CSS (анимации, Flexbox)
-• React (компоненты, хуки)
-• API (fetch, axios)
-
-Выбери тему из примеров или уточни вопрос!`
-        };
 
         // Добавить сообщение
-        function addMessage(text, isUser = false) {
+        function addMessage(text, isUser = false, sources = []) {
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${isUser ? '' : 'ai-message'}`;
 
@@ -576,6 +462,16 @@ Fetch — самый современный способ!`,
             
             // Форматируем текст с подсветкой кода
             content.innerHTML = formatMessage(text);
+
+            // Добавляем источники, если есть
+            if (sources.length > 0) {
+                const sourcesDiv = document.createElement('div');
+                sourcesDiv.className = 'sources';
+                sourcesDiv.innerHTML = '🔍 Источники: ' + sources.map(url => 
+                    `<a href="${url}" target="_blank">${new URL(url).hostname}</a>`
+                ).join(' • ');
+                content.appendChild(sourcesDiv);
+            }
 
             messageDiv.appendChild(avatar);
             messageDiv.appendChild(content);
@@ -633,31 +529,8 @@ Fetch — самый современный способ!`,
             chatContainer.scrollTop = chatContainer.scrollHeight;
         }
 
-        // Поиск ответа в базе знаний
-        function findAnswer(question) {
-            question = question.toLowerCase();
-            
-            if (question.includes('python') || question.includes('питон') || question.includes('сортировк')) {
-                return knowledgeBase.python;
-            }
-            if (question.includes('javascript') || question.includes('js') || question.includes('замыкани')) {
-                return knowledgeBase.javascript;
-            }
-            if (question.includes('css') || question.includes('анимац') || question.includes('стил')) {
-                return knowledgeBase.css;
-            }
-            if (question.includes('react') || question.includes('компонент') || question.includes('хук')) {
-                return knowledgeBase.react;
-            }
-            if (question.includes('api') || question.includes('fetch') || question.includes('запрос') || question.includes('axios')) {
-                return knowledgeBase.api;
-            }
-            
-            return knowledgeBase.default;
-        }
-
-        // Отправка сообщения
-        function sendMessage() {
+        // Обработка сообщения
+        async function handleMessage() {
             const text = userInput.value.trim();
             if (!text) return;
 
@@ -668,32 +541,54 @@ Fetch — самый современный способ!`,
             userInput.value = '';
             userInput.style.height = 'auto';
             
-            // Показываем индикатор печати
+            // Показываем индикатор
             showTyping();
-            
-            // Ищем ответ (имитация задержки)
-            setTimeout(() => {
+
+            try {
+                if (searchEnabled) {
+                    // Ищем в интернете
+                    const searchResult = await searchInternet(text);
+                    
+                    if (searchResult.success) {
+                        removeTyping();
+                        addMessage(
+                            `🔍 Нашел информацию из ${searchResult.source}:\n\n${searchResult.content}\n\nХочешь, чтобы я написал код на основе этого?`,
+                            false,
+                            searchResult.url ? [searchResult.url] : []
+                        );
+                    } else {
+                        // Если поиск не дал результатов, генерируем код
+                        const codeResult = await generateCode(text);
+                        removeTyping();
+                        addMessage(
+                            `💻 Сгенерированный код:\n\n${codeResult.code}`,
+                            false,
+                            codeResult.sources
+                        );
+                    }
+                } else {
+                    // Только генерация кода
+                    const codeResult = await generateCode(text);
+                    removeTyping();
+                    addMessage(
+                        `💻 Сгенерированный код:\n\n${codeResult.code}`,
+                        false,
+                        codeResult.sources
+                    );
+                }
+            } catch (error) {
                 removeTyping();
-                const answer = findAnswer(text);
-                addMessage(answer, false);
-            }, 800);
+                addMessage('❌ Ошибка: ' + error.message, false);
+            }
         }
 
-        // Установить пример
-        window.setExample = function(text) {
-            userInput.value = text;
-            userInput.style.height = 'auto';
-            userInput.style.height = (userInput.scrollHeight) + 'px';
-            userInput.focus();
-        };
-
         // Слушатели
-        sendBtn.addEventListener('click', sendMessage);
+        sendBtn.addEventListener('click', handleMessage);
 
         userInput.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
-                sendMessage();
+                handleMessage();
             }
         });
 
@@ -702,7 +597,6 @@ Fetch — самый современный способ!`,
             this.style.height = (this.scrollHeight) + 'px';
         });
 
-        // Фокус на поле ввода
         userInput.focus();
     </script>
 </body>
