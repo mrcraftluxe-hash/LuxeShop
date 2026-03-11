@@ -1,10 +1,77 @@
-body { font-family: Arial; background: #1a1a2e; margin: 0; padding: 20px; color: white; }
-.container { max-width: 1200px; margin: 0 auto; }
-.products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 15px; margin: 20px 0; }
-.product-card { background: #16213e; padding: 15px; border-radius: 10px; border-left: 4px solid gold; }
-.cat { color: gold; font-size: 12px; }
-.name { font-size: 18px; margin: 5px 0; }
-.price { color: #00ff88; font-weight: bold; }
-.tg-link { text-align: center; padding: 15px; background: #0f3460; border-radius: 10px; margin-top: 20px; }
-a { color: gold; text-decoration: none; }
-a:hover { text-decoration: underline; }
+body {
+    font-family: 'Courier New', 'Minecraft', monospace;
+    background: #2d2d2d;
+    margin: 0;
+    padding: 20px;
+    color: #fff;
+    image-rendering: pixelated;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    border: 4px solid #8b8b8b;
+    background: #3b3b3b;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    color: #ffff00;
+    text-shadow: 3px 3px 0 #2a2a2a;
+    font-size: 2.5em;
+    margin: 0 0 20px 0;
+}
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px;
+}
+
+.product-card {
+    background: #4b4b4b;
+    padding: 15px;
+    border: 3px solid #6b6b6b;
+    border-radius: 0;
+    image-rendering: pixelated;
+    box-shadow: inset -2px -2px 0 #2a2a2a, inset 2px 2px 0 #a1a1a1;
+}
+
+.cat {
+    color: #aaffaa;
+    font-size: 12px;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.name {
+    font-size: 18px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.price {
+    color: #ffff55;
+    font-weight: bold;
+    font-size: 20px;
+    margin-top: 10px;
+}
+
+.tg-link {
+    text-align: center;
+    padding: 15px;
+    background: #4b4b4b;
+    border: 3px solid #6b6b6b;
+    margin-top: 20px;
+    box-shadow: inset -2px -2px 0 #2a2a2a, inset 2px 2px 0 #a1a1a1;
+}
+
+a {
+    color: #55ffff;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #ffff55;
+}
