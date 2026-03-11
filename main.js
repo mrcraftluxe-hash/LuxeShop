@@ -1,32 +1,74 @@
 const products = [
     // Майнкрафт услуги
-    { cat: '⚙️ Майнкрафт', name: 'Загрузка сборки', price: 99 },
-    { cat: '⚙️ Майнкрафт', name: 'Настройка плагинов', price: '299 - 999' },
-    { cat: '⚙️ Майнкрафт', name: 'Полная настройка сервера', price: '1999 - 9999' },
+    { category: 'minecraft', catName: '⚙️ Майнкрафт', name: 'Загрузка сборки', price: 99 },
+    { category: 'minecraft', catName: '⚙️ Майнкрафт', name: 'Настройка плагинов', price: '299 - 999' },
+    { category: 'minecraft', catName: '⚙️ Майнкрафт', name: 'Полная настройка сервера', price: '1999 - 9999' },
+    
     // Промокоды Standoff 2
-    { cat: '🔪 Промокоды Standoff 2', name: 'Промокод Tanto', price: 119 },
-    { cat: '🔪 Промокоды Standoff 2', name: 'Промокод Butterfly', price: 199 },
-    { cat: '🔪 Промокоды Standoff 2', name: 'Промокод Stiletto', price: 189 },
-    { cat: '🔪 Промокоды Standoff 2', name: 'Промокод Fang', price: 249 },
-    { cat: '🔪 Промокоды Standoff 2', name: 'Промокод Kerambit', price: 279 },
+    { category: 'promo', catName: '🔪 Промокоды', name: 'Tanto', price: 119 },
+    { category: 'promo', catName: '🔪 Промокоды', name: 'Kerambit', price: 279 },
+    { category: 'promo', catName: '🔪 Промокоды', name: 'Butterfly', price: 199 },
+    { category: 'promo', catName: '🔪 Промокоды', name: 'Stiletto', price: 189 },
+    { category: 'promo', catName: '🔪 Промокоды', name: 'Fang', price: 249 },
+    
     // Буст аккаунтов
-    { cat: '🚀 Буст акков Standoff', name: 'Silver 1/4', price: 99 },
-    { cat: '🚀 Буст акков Standoff', name: 'Gold 1/4', price: 199 },
-    { cat: '🚀 Буст акков Standoff', name: 'Pheonix', price: 379 },
-    { cat: '🚀 Буст акков Standoff', name: 'Renger', price: 689 },
-    { cat: '🚀 Буст акков Standoff', name: 'Master', price: 999 },
-    { cat: '🚀 Буст акков Standoff', name: 'Другие ранги', price: 1999 }
+    { category: 'boost', catName: '🚀 Буст акков', name: 'Silver 1/4', price: 99 },
+    { category: 'boost', catName: '🚀 Буст акков', name: 'Gold 1/4', price: 199 },
+    { category: 'boost', catName: '🚀 Буст акков', name: 'Pheonix', price: 379 },
+    { category: 'boost', catName: '🚀 Буст акков', name: 'Renger', price: 689 },
+    { category: 'boost', catName: '🚀 Буст акков', name: 'Master', price: 999 },
+    { category: 'boost', catName: '🚀 Буст акков', name: 'Другие ранги', price: 1999 }
 ];
 
 function renderProducts() {
     const container = document.getElementById('products');
-    container.innerHTML = products.map(p => 
-        `<div class="product-card">
-            <span class="cat">${p.cat}</span>
-            <div class="name">${p.name}</div>
-            <div class="price">${p.price}₽</div>
-        </div>`
-    ).join('');
+    if (!container) return;
+    
+    // Группируем товары по категориям
+    const categories = {};
+    products.forEach(product => {
+        if (!categories[product.category]) {
+            categories[product.category] = {
+                name: product.catName,
+                items: []
+            };
+        }
+        categories[product.category].items.push(product);
+    });
+    
+    // Создаем HTML
+    let html = '';
+    for (let cat in categories) {
+        html += `<h2 class="category-title">${categories[cat].name}</h2>`;
+        html += '<div class="category-grid">';
+        
+        categories[cat].items.forEach(item => {
+            html += `
+                <div class="product-card" onclick="copyToClipboard('${item.name}')">
+                    <span class="cat">${item.catName}</span>
+                    <div class="name">${item.name}</div>
+                    <div class="price">${item.price}₽</div>
+                </div>
+            `;
+        });
+        
+        html += '</div>';
+    }
+    
+    container.innerHTML = html;
 }
 
+// Функция для копирования в буфер обмена
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(() => {
+        alert(`Скопировано: ${text}`);
+    }).catch(err => {
+        console.error('Ошибка копирования:', err);
+    });
+}
+
+// Показываем приветствие в консоли
+console.log('MrCraftLuxe Shop загружен! Товаров: ' + products.length);
+
+// Запускаем
 renderProducts();
