@@ -70,3 +70,6 @@
     color: #f1c40f;
     grid-column: 1/-1;
 }
+  body {
+    background-color: black !important;
+}
