@@ -3,12 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StreetNeiro — живой AI помощник по коду</title>
-    <!-- Шрифты и иконки -->
+    <title>StreetNeiro — как GigaChat</title>
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Highlight.js -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <style>
@@ -20,22 +22,36 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: #0a0c0f;
-            color: #e1e4e8;
-            height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* Главный контейнер как в GigaChat */
+        .chat-wrapper {
+            width: 100%;
+            max-width: 1200px;
+            height: 90vh;
+            background: white;
+            border-radius: 32px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             display: flex;
             flex-direction: column;
             overflow: hidden;
+            position: relative;
         }
 
-        /* Шапка */
+        /* Хедер с градиентом */
         .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px 30px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 16px 24px;
-            background: #0d1117;
-            border-bottom: 1px solid #2d2f36;
+            color: white;
         }
 
         .logo-area {
@@ -45,148 +61,168 @@
         }
 
         .logo-icon {
-            font-size: 28px;
-            color: #00ff9d;
-            filter: drop-shadow(0 0 8px #00ff9d);
+            font-size: 32px;
+            background: rgba(255,255,255,0.2);
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            backdrop-filter: blur(10px);
         }
 
         .site-title {
             font-size: 24px;
-            font-weight: 700;
-            background: linear-gradient(135deg, #00ff9d, #00b8ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-weight: 600;
         }
 
-        .api-status {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: #1e2a3a;
-            padding: 6px 14px;
-            border-radius: 30px;
-            font-size: 13px;
-        }
-
-        .status-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: #ffaa33;
-        }
-
-        .status-dot.connected {
-            background: #00ff9d;
-            box-shadow: 0 0 10px #00ff9d;
-        }
-
-        /* Кнопка настроек API */
-        .settings-btn {
-            background: transparent;
-            border: 1px solid #3a4a5a;
-            color: #b0c4d9;
-            padding: 6px 14px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-size: 13px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: all 0.2s;
-        }
-
-        .settings-btn:hover {
-            border-color: #00ff9d;
-            color: #00ff9d;
-        }
-
-        /* Модальное окно для API ключа */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.8);
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: #1a1e24;
-            border: 1px solid #00ff9d;
-            border-radius: 20px;
-            padding: 30px;
-            max-width: 500px;
-            width: 90%;
-        }
-
-        .modal-content h3 {
-            margin-bottom: 20px;
-            color: #00ff9d;
-        }
-
-        .modal-content input {
-            width: 100%;
-            padding: 12px 16px;
-            background: #0d1117;
-            border: 1px solid #2d323a;
-            border-radius: 12px;
-            color: white;
+        .site-title span {
             font-size: 14px;
-            margin-bottom: 20px;
+            opacity: 0.8;
+            margin-left: 8px;
+            font-weight: 400;
         }
 
-        .modal-content input:focus {
-            border-color: #00ff9d;
-            outline: none;
-        }
-
-        .modal-buttons {
+        .header-actions {
             display: flex;
             gap: 12px;
-            justify-content: flex-end;
         }
 
-        .modal-btn {
-            padding: 10px 20px;
-            border-radius: 30px;
+        .header-btn {
+            background: rgba(255,255,255,0.2);
             border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 18px;
+            backdrop-filter: blur(10px);
+            transition: all 0.2s;
+        }
+
+        .header-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.05);
+        }
+
+        /* Боковая панель (опционально, как в GigaChat) */
+        .main-content {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+            background: #f8fafc;
+        }
+
+        .sidebar {
+            width: 260px;
+            background: white;
+            border-right: 1px solid #e2e8f0;
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .new-chat-btn {
+            margin: 0 16px 20px 16px;
+            padding: 12px 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 30px;
+            color: white;
             font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
             cursor: pointer;
             transition: all 0.2s;
         }
 
-        .save-btn {
-            background: #00ff9d;
-            color: #0a0c0f;
+        .new-chat-btn:hover {
+            opacity: 0.9;
+            transform: scale(1.02);
         }
 
-        .save-btn:hover {
-            background: #00cc7d;
-        }
-
-        .cancel-btn {
-            background: transparent;
-            border: 1px solid #5d6a7a;
-            color: #e1e4e8;
-        }
-
-        /* Чат */
-        .chat-container {
+        .chat-history {
             flex: 1;
             overflow-y: auto;
-            padding: 24px 20px;
+            padding: 0 12px;
         }
 
-        .messages {
-            max-width: 900px;
+        .history-item {
+            padding: 12px 16px;
+            border-radius: 30px;
+            margin-bottom: 4px;
+            cursor: pointer;
+            color: #4a5568;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.2s;
+        }
+
+        .history-item:hover {
+            background: #f1f5f9;
+        }
+
+        .history-item.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .history-item i {
+            width: 20px;
+            font-size: 14px;
+        }
+
+        .user-info {
+            padding: 20px 16px;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .user-email {
+            font-size: 12px;
+            color: #718096;
+        }
+
+        /* Основная область чата */
+        .chat-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #f8fafc;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 30px;
+        }
+
+        .messages-container {
+            max-width: 800px;
             margin: 0 auto;
             display: flex;
             flex-direction: column;
@@ -196,40 +232,50 @@
         .message {
             display: flex;
             gap: 16px;
-            animation: fadeIn 0.3s;
+            animation: slideIn 0.3s ease;
         }
 
-        @keyframes fadeIn {
+        @keyframes slideIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: 8px;
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 18px;
             flex-shrink: 0;
+            font-size: 20px;
         }
 
-        .user-avatar {
-            background: #2d2f36;
-            border: 1px solid #4a4f5a;
+        .user-avatar-message {
+            background: #e2e8f0;
+            color: #4a5568;
         }
 
-        .ai-avatar {
-            background: #1a2f2a;
-            color: #00ff9d;
-            border: 1px solid #00ff9d;
+        .ai-avatar-message {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
         }
 
         .message-content {
             flex: 1;
+            background: white;
+            padding: 16px 20px;
+            border-radius: 20px;
+            border-top-left-radius: 4px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
             line-height: 1.6;
-            font-size: 15px;
+            color: #2d3748;
+        }
+
+        .ai-message .message-content {
+            background: white;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 4px;
         }
 
         .message-content pre {
@@ -237,7 +283,6 @@
             border-radius: 12px;
             padding: 16px;
             margin: 12px 0;
-            border: 1px solid #2d323a;
             overflow-x: auto;
         }
 
@@ -246,19 +291,28 @@
             font-size: 14px;
         }
 
+        .message-time {
+            font-size: 11px;
+            color: #a0aec0;
+            margin-top: 8px;
+            text-align: right;
+        }
+
+        /* Индикатор печати */
         .typing-indicator {
             display: flex;
-            gap: 5px;
-            padding: 12px 16px;
-            background: #1a1e24;
+            gap: 4px;
+            padding: 16px 20px;
+            background: white;
             border-radius: 20px;
             width: fit-content;
+            border-top-left-radius: 4px;
         }
 
         .typing-indicator span {
             width: 8px;
             height: 8px;
-            background: #00ff9d;
+            background: #667eea;
             border-radius: 50%;
             animation: typing 1.4s infinite;
             opacity: 0.4;
@@ -272,27 +326,29 @@
             50% { opacity: 1; transform: scale(1.2); }
         }
 
-        /* Поле ввода */
+        /* Поле ввода как в GigaChat */
         .input-area {
-            background: #0d1117;
-            border-top: 1px solid #2d2f36;
-            padding: 20px 24px;
+            background: white;
+            border-top: 1px solid #e2e8f0;
+            padding: 20px 30px;
         }
 
         .input-wrapper {
-            max-width: 900px;
+            max-width: 800px;
             margin: 0 auto;
             display: flex;
             gap: 12px;
-            background: #1a1e24;
-            border-radius: 16px;
-            border: 1px solid #2d323a;
+            background: #f1f5f9;
+            border-radius: 30px;
             padding: 4px 4px 4px 20px;
+            border: 1px solid transparent;
+            transition: all 0.2s;
         }
 
         .input-wrapper:focus-within {
-            border-color: #00ff9d;
-            box-shadow: 0 0 0 3px rgba(0, 255, 157, 0.2);
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
         }
 
         textarea {
@@ -300,177 +356,322 @@
             background: transparent;
             border: none;
             padding: 14px 0;
-            color: #e1e4e8;
+            color: #2d3748;
             font-family: 'Inter', sans-serif;
             font-size: 15px;
             resize: none;
-            max-height: 150px;
+            max-height: 120px;
             outline: none;
         }
 
-        .send-btn {
+        textarea::placeholder {
+            color: #a0aec0;
+        }
+
+        .action-buttons {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .attach-btn, .send-btn {
             background: transparent;
             border: none;
-            color: #5d6a7a;
-            width: 40px;
-            height: 40px;
-            border-radius: 12px;
+            width: 44px;
+            height: 44px;
+            border-radius: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
             font-size: 20px;
+            color: #718096;
             transition: all 0.2s;
         }
 
-        .send-btn.active {
-            color: #00ff9d;
+        .attach-btn:hover {
+            background: #e2e8f0;
+            color: #4a5568;
         }
 
-        .error-message {
-            color: #ff5e5e;
+        .send-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .send-btn:hover {
+            opacity: 0.9;
+            transform: scale(1.05);
+        }
+
+        .send-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Примеры вопросов */
+        .examples {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .example-item {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 30px;
+            padding: 8px 16px;
             font-size: 13px;
-            margin-top: 8px;
-            text-align: center;
+            color: #4a5568;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
-        footer {
-            text-align: center;
-            font-size: 12px;
-            color: #3a4a5a;
-            padding: 12px;
+        .example-item:hover {
+            background: #f1f5f9;
+            border-color: #667eea;
+            color: #667eea;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+            
+            .chat-wrapper {
+                height: 100vh;
+                border-radius: 0;
+            }
+            
+            body {
+                padding: 0;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="logo-area">
-            <i class="fas fa-brain logo-icon"></i>
-            <div class="site-title">StreetNeiro</div>
-        </div>
-        <div style="display: flex; gap: 12px; align-items: center;">
-            <div class="api-status" id="apiStatus">
-                <span class="status-dot" id="statusDot"></span>
-                <span id="statusText">API не настроен</span>
+    <div class="chat-wrapper">
+        <!-- Хедер как в GigaChat -->
+        <div class="header">
+            <div class="logo-area">
+                <div class="logo-icon"><i class="fas fa-brain"></i></div>
+                <div class="site-title">StreetNeiro <span>как GigaChat</span></div>
             </div>
-            <button class="settings-btn" id="settingsBtn">
-                <i class="fas fa-key"></i> Настроить API
-            </button>
-        </div>
-    </div>
-
-    <!-- Модальное окно для ввода API ключа -->
-    <div class="modal" id="apiModal">
-        <div class="modal-content">
-            <h3><i class="fas fa-key" style="margin-right: 10px;"></i>Введи API ключ Gemini</h3>
-            <p style="color: #8899aa; margin-bottom: 20px; font-size: 14px;">
-                1. Получи ключ на <a href="https://makersuite.google.com/app/apikey" target="_blank" style="color: #00ff9d;">Google AI Studio</a> (бесплатно)<br>
-                2. Вставь его сюда и нажми Сохранить
-            </p>
-            <input type="text" id="apiKeyInput" placeholder="AIzaSyA...">
-            <div class="modal-buttons">
-                <button class="modal-btn cancel-btn" id="cancelModal">Отмена</button>
-                <button class="modal-btn save-btn" id="saveApiKey">Сохранить</button>
+            <div class="header-actions">
+                <button class="header-btn"><i class="fas fa-search"></i></button>
+                <button class="header-btn"><i class="fas fa-bell"></i></button>
+                <button class="header-btn"><i class="fas fa-cog"></i></button>
             </div>
         </div>
-    </div>
 
-    <div class="chat-container" id="chatContainer">
-        <div class="messages" id="messages">
-            <div class="message">
-                <div class="avatar ai-avatar"><i class="fas fa-robot"></i></div>
-                <div class="message-content">
-                    <p>Йо, я <strong>StreetNeiro</strong> — живой AI помощник по коду.</p>
-                    <p>🔧 <strong>Сначала настрой API ключ</strong> (кнопка справа вверху), чтобы я мог реально отвечать.</p>
-                    <p>Потом спрашивай что угодно: код, отладка, объяснения — работаем!</p>
+        <!-- Основной контент -->
+        <div class="main-content">
+            <!-- Левая панель (как в GigaChat) -->
+            <div class="sidebar">
+                <button class="new-chat-btn" id="newChatBtn">
+                    <i class="fas fa-plus"></i> Новый чат
+                </button>
+                
+                <div class="chat-history">
+                    <div class="history-item active">
+                        <i class="fas fa-message"></i>
+                        <span>Помощь с Python</span>
+                    </div>
+                    <div class="history-item">
+                        <i class="fas fa-message"></i>
+                        <span>Объясни замыкания</span>
+                    </div>
+                    <div class="history-item">
+                        <i class="fas fa-message"></i>
+                        <span>Как сделать сайт</span>
+                    </div>
+                    <div class="history-item">
+                        <i class="fas fa-message"></i>
+                        <span>React хуки</span>
+                    </div>
+                </div>
+
+                <div class="user-info">
+                    <div class="user-avatar">SN</div>
+                    <div>
+                        <div class="user-name">StreetNeiro</div>
+                        <div class="user-email">online</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Область чата -->
+            <div class="chat-area">
+                <div class="chat-messages" id="chatMessages">
+                    <div class="messages-container" id="messagesContainer">
+                        <!-- Приветственное сообщение -->
+                        <div class="message ai-message">
+                            <div class="message-avatar ai-avatar-message">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <div class="message-content">
+                                <p>👋 Привет! Я <strong>StreetNeiro</strong> в стиле GigaChat.</p>
+                                <p>Готов помочь с программированием, кодом и объяснениями. Что будем писать сегодня?</p>
+                                <div class="message-time">только что</div>
+                            </div>
+                        </div>
+
+                        <!-- Пример сообщения пользователя (для демо) -->
+                        <div class="message user-message">
+                            <div class="message-avatar user-avatar-message">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="message-content">
+                                <p>Напиши функцию на Python для сортировки списка</p>
+                                <div class="message-time">сейчас</div>
+                            </div>
+                        </div>
+
+                        <!-- Ответ AI с кодом -->
+                        <div class="message ai-message">
+                            <div class="message-avatar ai-avatar-message">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <div class="message-content">
+                                <p>Держи пример сортировки на Python:</p>
+                                <pre><code class="language-python"># Быстрая сортировка списка
+numbers = [5, 2, 8, 1, 9, 3]
+
+# Способ 1: встроенная сортировка
+sorted_numbers = sorted(numbers)  # [1, 2, 3, 5, 8, 9]
+
+# Способ 2: сортировка по убыванию
+sorted_desc = sorted(numbers, reverse=True)  # [9, 8, 5, 3, 2, 1]
+
+# Способ 3: сортировка пузырьком (для понимания)
+def bubble_sort(arr):
+    n = len(arr)
+    for i in range(n-1):
+        for j in range(n-i-1):
+            if arr[j] > arr[j+1]:
+                arr[j], arr[j+1] = arr[j+1], arr[j]
+    return arr
+
+print(bubble_sort([5, 2, 8, 1, 9, 3]))  # [1, 2, 3, 5, 8, 9]</code></pre>
+                                <p>Какой способ тебе нужен?</p>
+                                <div class="message-time">только что</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Примеры вопросов (как в GigaChat) -->
+                <div class="examples">
+                    <div class="example-item" onclick="setExample('Напиши калькулятор на JavaScript')">
+                        <i class="fas fa-calculator"></i> Калькулятор JS
+                    </div>
+                    <div class="example-item" onclick="setExample('Объясни замыкания в JavaScript')">
+                        <i class="fas fa-closure"></i> Замыкания
+                    </div>
+                    <div class="example-item" onclick="setExample('Как сделать анимацию на CSS')">
+                        <i class="fas fa-css3"></i> CSS анимация
+                    </div>
+                    <div class="example-item" onclick="setExample('React vs Vue')">
+                        <i class="fas fa-code-compare"></i> React vs Vue
+                    </div>
+                </div>
+
+                <!-- Поле ввода -->
+                <div class="input-area">
+                    <div class="input-wrapper">
+                        <textarea id="userInput" placeholder="Напиши сообщение..." rows="1"></textarea>
+                        <div class="action-buttons">
+                            <button class="attach-btn"><i class="fas fa-paperclip"></i></button>
+                            <button class="send-btn" id="sendBtn"><i class="fas fa-paper-plane"></i></button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="input-area">
-        <div class="input-wrapper">
-            <textarea id="userInput" placeholder="Напиши вопрос про код..." rows="1" disabled></textarea>
-            <button class="send-btn" id="sendBtn" disabled><i class="fas fa-paper-plane"></i></button>
-        </div>
-        <div id="errorMessage" class="error-message"></div>
-        <footer>
-            StreetNeiro на реальном Gemini AI. Может ошибаться, проверяй код.
-        </footer>
-    </div>
-
     <script>
         hljs.highlightAll();
-        
-        // Элементы
-        const modal = document.getElementById('apiModal');
-        const settingsBtn = document.getElementById('settingsBtn');
-        const cancelModal = document.getElementById('cancelModal');
-        const saveApiKey = document.getElementById('saveApiKey');
-        const apiKeyInput = document.getElementById('apiKeyInput');
-        const statusDot = document.getElementById('statusDot');
-        const statusText = document.getElementById('statusText');
+
         const userInput = document.getElementById('userInput');
         const sendBtn = document.getElementById('sendBtn');
-        const messagesDiv = document.getElementById('messages');
-        const chatContainer = document.getElementById('chatContainer');
-        const errorDiv = document.getElementById('errorMessage');
+        const messagesContainer = document.getElementById('messagesContainer');
+        const chatMessages = document.getElementById('chatMessages');
+        const newChatBtn = document.getElementById('newChatBtn');
 
-        // Состояние
-        let apiKey = localStorage.getItem('gemini_api_key') || '';
-
-        // Инициализация
-        if (apiKey) {
-            enableChat();
-        }
-
-        // Открыть модалку
-        settingsBtn.addEventListener('click', () => {
-            apiKeyInput.value = apiKey;
-            modal.classList.add('active');
+        // Авто-расширение textarea
+        userInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
         });
 
-        // Закрыть модалку
-        cancelModal.addEventListener('click', () => {
-            modal.classList.remove('active');
-        });
+        // Отправка сообщения
+        function sendMessage() {
+            const text = userInput.value.trim();
+            if (!text) return;
 
-        // Сохранить ключ
-        saveApiKey.addEventListener('click', () => {
-            const newKey = apiKeyInput.value.trim();
-            if (newKey) {
-                apiKey = newKey;
-                localStorage.setItem('gemini_api_key', newKey);
-                enableChat();
-                modal.classList.remove('active');
-                addMessage('API ключ сохранен! Теперь я могу отвечать на вопросы. Спрашивай что угодно о программировании.', false);
-            }
-        });
+            // Добавляем сообщение пользователя
+            addMessage(text, true);
+            
+            // Очищаем поле
+            userInput.value = '';
+            userInput.style.height = 'auto';
 
-        // Включить чат
-        function enableChat() {
-            userInput.disabled = false;
-            sendBtn.disabled = false;
-            userInput.focus();
-            statusDot.className = 'status-dot connected';
-            statusText.textContent = 'API подключен';
+            // Показываем индикатор печати
+            showTypingIndicator();
+
+            // Имитация ответа AI (через 1.5 секунды)
+            setTimeout(() => {
+                removeTypingIndicator();
+                
+                // Разные ответы в зависимости от вопроса
+                let response = '';
+                if (text.toLowerCase().includes('привет')) {
+                    response = 'Привет! Чем могу помочь по коду?';
+                } else if (text.toLowerCase().includes('python')) {
+                    response = 'Python — отличный выбор! Вот пример функции:\n\n```python\ndef hello():\n    print("Hello, StreetNeiro!")\n```';
+                } else if (text.toLowerCase().includes('javascript')) {
+                    response = 'JS в деле:\n\n```javascript\nconst greet = () => {\n  console.log("Hello from StreetNeiro!");\n};\n```';
+                } else {
+                    response = `Отвечаю на: "${text}".\n\nЭто демо-версия в стиле GigaChat. Для подключения реального AI используй API ключ.`;
+                }
+                
+                addMessage(response, false);
+            }, 1500);
         }
 
         // Добавить сообщение
-        function addMessage(text, isUser = false) {
+        function addMessage(text, isUser) {
             const messageDiv = document.createElement('div');
-            messageDiv.className = 'message';
+            messageDiv.className = `message ${isUser ? 'user-message' : 'ai-message'}`;
 
             const avatar = document.createElement('div');
-            avatar.className = `avatar ${isUser ? 'user-avatar' : 'ai-avatar'}`;
+            avatar.className = `message-avatar ${isUser ? 'user-avatar-message' : 'ai-avatar-message'}`;
             avatar.innerHTML = isUser ? '<i class="fas fa-user"></i>' : '<i class="fas fa-robot"></i>';
 
             const content = document.createElement('div');
             content.className = 'message-content';
             
-            // Форматируем ответ (код в ``` обрабатываем)
+            // Форматируем текст (поддержка кода)
             content.innerHTML = formatMessage(text);
+
+            // Добавляем время
+            const time = document.createElement('div');
+            time.className = 'message-time';
+            time.textContent = 'сейчас';
+
+            content.appendChild(time);
 
             messageDiv.appendChild(avatar);
             messageDiv.appendChild(content);
-            messagesDiv.appendChild(messageDiv);
+            messagesContainer.appendChild(messageDiv);
 
             // Подсветка кода
             content.querySelectorAll('pre code').forEach(block => {
@@ -480,9 +681,8 @@
             scrollToBottom();
         }
 
-        // Форматирование сообщения (подсветка кода)
+        // Форматирование сообщения с подсветкой кода
         function formatMessage(text) {
-            // Ищем блоки кода ``` ```
             const parts = text.split(/(```[\s\S]*?```)/g);
             return parts.map(part => {
                 if (part.startsWith('```') && part.endsWith('```')) {
@@ -504,122 +704,58 @@
         }
 
         // Индикатор печати
-        function showTyping() {
+        function showTypingIndicator() {
             const indicator = document.createElement('div');
-            indicator.className = 'message';
+            indicator.className = 'message ai-message';
             indicator.id = 'typingIndicator';
             indicator.innerHTML = `
-                <div class="avatar ai-avatar"><i class="fas fa-robot"></i></div>
-                <div class="typing-indicator"><span></span><span></span><span></span></div>
+                <div class="message-avatar ai-avatar-message">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="typing-indicator">
+                    <span></span><span></span><span></span>
+                </div>
             `;
-            messagesDiv.appendChild(indicator);
+            messagesContainer.appendChild(indicator);
             scrollToBottom();
         }
 
-        function removeTyping() {
+        function removeTypingIndicator() {
             const indicator = document.getElementById('typingIndicator');
             if (indicator) indicator.remove();
         }
 
-        // Скролл вниз
         function scrollToBottom() {
-            chatContainer.scrollTop = chatContainer.scrollHeight;
+            chatMessages.scrollTop = chatMessages.scrollHeight;
         }
 
-        // Отправка сообщения в Gemini API
-        async function sendToGemini(message) {
-            if (!apiKey) {
-                throw new Error('API ключ не настроен');
-            }
-
-            // Gemini API endpoint (используем gemini-pro)
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`;
-
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    contents: [{
-                        parts: [{
-                            text: `Ты StreetNeiro — уличный AI помощник по программированию. Отвечаешь коротко, по делу, с примерами кода если нужно. Вопрос: ${message}`
-                        }]
-                    }]
-                })
-            });
-
-            if (!response.ok) {
-                const error = await response.json();
-                throw new Error(error.error?.message || 'Ошибка API');
-            }
-
-            const data = await response.json();
-            
-            if (data.candidates && data.candidates[0]?.content?.parts[0]?.text) {
-                return data.candidates[0].content.parts[0].text;
-            } else {
-                throw new Error('Пустой ответ от API');
-            }
-        }
-
-        // Обработка отправки
-        async function handleSend() {
-            const message = userInput.value.trim();
-            if (!message || !apiKey) return;
-
-            // Очищаем поле
-            userInput.value = '';
+        // Установить пример вопроса
+        window.setExample = function(text) {
+            userInput.value = text;
             userInput.style.height = 'auto';
-            
-            // Показываем сообщение пользователя
-            addMessage(message, true);
-            
-            // Показываем индикатор печати
-            showTyping();
-            
-            try {
-                // Отправляем в Gemini
-                const response = await sendToGemini(message);
-                
-                // Убираем индикатор
-                removeTyping();
-                
-                // Показываем ответ
-                addMessage(response, false);
-                
-            } catch (error) {
-                removeTyping();
-                errorDiv.textContent = `Ошибка: ${error.message}`;
-                setTimeout(() => errorDiv.textContent = '', 5000);
-                
-                addMessage(`Извини, ошибка: ${error.message}. Проверь API ключ или попробуй позже.`, false);
-            }
-        }
+            userInput.style.height = (userInput.scrollHeight) + 'px';
+            userInput.focus();
+        };
 
-        // Слушатели событий
-        sendBtn.addEventListener('click', handleSend);
+        // Обработчики
+        sendBtn.addEventListener('click', sendMessage);
 
         userInput.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
-                handleSend();
+                sendMessage();
             }
         });
 
-        // Авто-расширение textarea
-        userInput.addEventListener('input', function() {
-            this.style.height = 'auto';
-            this.style.height = (this.scrollHeight) + 'px';
-            sendBtn.style.color = this.value.trim() ? '#00ff9d' : '#5d6a7a';
+        // Новый чат
+        newChatBtn.addEventListener('click', () => {
+            messagesContainer.innerHTML = '';
+            // Добавляем приветствие
+            addMessage('👋 Привет! Я StreetNeiro в стиле GigaChat. Готов помочь с программированием!', false);
         });
 
-        // Закрыть модалку по клику вне
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                modal.classList.remove('active');
-            }
-        });
+        // Фокус на поле ввода
+        userInput.focus();
     </script>
 </body>
-    </html>
+</html>
