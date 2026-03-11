@@ -3,14 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StreetNeiro — уличный AI-помощник по коду</title>
-    <!-- Подключаем шрифт Inter для современного вида -->
+    <title>StreetNeiro — живой AI помощник по коду</title>
+    <!-- Шрифты и иконки -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
-    <!-- Font Awesome для иконок -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Highlight.js для подсветки кода (тёмная тема) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <style>
@@ -30,7 +28,7 @@
             overflow: hidden;
         }
 
-        /* Шапка с неоновым акцентом */
+        /* Шапка */
         .header {
             display: flex;
             align-items: center;
@@ -38,7 +36,6 @@
             padding: 16px 24px;
             background: #0d1117;
             border-bottom: 1px solid #2d2f36;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
         }
 
         .logo-area {
@@ -56,46 +53,136 @@
         .site-title {
             font-size: 24px;
             font-weight: 700;
-            letter-spacing: 1px;
             background: linear-gradient(135deg, #00ff9d, #00b8ff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
 
-        .site-title span {
-            font-weight: 400;
-            color: #8899aa;
-            background: none;
-            -webkit-text-fill-color: #8899aa;
-            font-size: 16px;
-            margin-left: 8px;
-        }
-
-        .model-badge {
+        .api-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
             background: #1e2a3a;
             padding: 6px 14px;
             border-radius: 30px;
-            font-size: 14px;
-            font-weight: 500;
+            font-size: 13px;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ffaa33;
+        }
+
+        .status-dot.connected {
+            background: #00ff9d;
+            box-shadow: 0 0 10px #00ff9d;
+        }
+
+        /* Кнопка настроек API */
+        .settings-btn {
+            background: transparent;
             border: 1px solid #3a4a5a;
             color: #b0c4d9;
+            padding: 6px 14px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 13px;
             display: flex;
             align-items: center;
             gap: 6px;
+            transition: all 0.2s;
         }
 
-        .model-badge i {
+        .settings-btn:hover {
+            border-color: #00ff9d;
             color: #00ff9d;
         }
 
-        /* Основной контейнер чата */
+        /* Модальное окно для API ключа */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #1a1e24;
+            border: 1px solid #00ff9d;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .modal-content h3 {
+            margin-bottom: 20px;
+            color: #00ff9d;
+        }
+
+        .modal-content input {
+            width: 100%;
+            padding: 12px 16px;
+            background: #0d1117;
+            border: 1px solid #2d323a;
+            border-radius: 12px;
+            color: white;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .modal-content input:focus {
+            border-color: #00ff9d;
+            outline: none;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+
+        .modal-btn {
+            padding: 10px 20px;
+            border-radius: 30px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .save-btn {
+            background: #00ff9d;
+            color: #0a0c0f;
+        }
+
+        .save-btn:hover {
+            background: #00cc7d;
+        }
+
+        .cancel-btn {
+            background: transparent;
+            border: 1px solid #5d6a7a;
+            color: #e1e4e8;
+        }
+
+        /* Чат */
         .chat-container {
             flex: 1;
             overflow-y: auto;
             padding: 24px 20px;
-            scroll-behavior: smooth;
-            background: #0a0c0f;
         }
 
         .messages {
@@ -109,7 +196,7 @@
         .message {
             display: flex;
             gap: 16px;
-            animation: fadeIn 0.3s ease;
+            animation: fadeIn 0.3s;
         }
 
         @keyframes fadeIn {
@@ -130,7 +217,6 @@
 
         .user-avatar {
             background: #2d2f36;
-            color: #e1e4e8;
             border: 1px solid #4a4f5a;
         }
 
@@ -138,7 +224,6 @@
             background: #1a2f2a;
             color: #00ff9d;
             border: 1px solid #00ff9d;
-            box-shadow: 0 0 10px rgba(0, 255, 157, 0.3);
         }
 
         .message-content {
@@ -157,12 +242,8 @@
         }
 
         .message-content code {
-            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-family: 'JetBrains Mono', monospace;
             font-size: 14px;
-        }
-
-        .message-content p {
-            margin: 10px 0;
         }
 
         .typing-indicator {
@@ -172,7 +253,6 @@
             background: #1a1e24;
             border-radius: 20px;
             width: fit-content;
-            border: 1px solid #2d323a;
         }
 
         .typing-indicator span {
@@ -192,7 +272,7 @@
             50% { opacity: 1; transform: scale(1.2); }
         }
 
-        /* Поле ввода с неоновой обводкой */
+        /* Поле ввода */
         .input-area {
             background: #0d1117;
             border-top: 1px solid #2d2f36;
@@ -207,7 +287,6 @@
             background: #1a1e24;
             border-radius: 16px;
             border: 1px solid #2d323a;
-            transition: all 0.2s;
             padding: 4px 4px 4px 20px;
         }
 
@@ -229,17 +308,6 @@
             outline: none;
         }
 
-        textarea::placeholder {
-            color: #5d6a7a;
-        }
-
-        .action-buttons {
-            display: flex;
-            align-items: flex-end;
-            gap: 8px;
-            padding-bottom: 8px;
-        }
-
         .send-btn {
             background: transparent;
             border: none;
@@ -247,9 +315,6 @@
             width: 40px;
             height: 40px;
             border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             cursor: pointer;
             font-size: 20px;
             transition: all 0.2s;
@@ -257,71 +322,13 @@
 
         .send-btn.active {
             color: #00ff9d;
-            background: rgba(0, 255, 157, 0.1);
         }
 
-        .send-btn.active:hover {
-            background: rgba(0, 255, 157, 0.2);
-        }
-
-        .clear-btn {
-            background: transparent;
-            border: 1px solid #2d323a;
-            color: #8899aa;
-            padding: 6px 14px;
-            border-radius: 30px;
-            font-size: 13px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .clear-btn:hover {
-            border-color: #ff5e5e;
+        .error-message {
             color: #ff5e5e;
-            background: rgba(255, 94, 94, 0.05);
-        }
-
-        .welcome-message {
+            font-size: 13px;
+            margin-top: 8px;
             text-align: center;
-            margin: 50px 0;
-            color: #5d6a7a;
-        }
-
-        .welcome-message h2 {
-            font-size: 28px;
-            font-weight: 600;
-            background: linear-gradient(135deg, #e1e4e8, #8899aa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 12px;
-        }
-
-        .feature-list {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-top: 30px;
-            flex-wrap: wrap;
-        }
-
-        .feature-item {
-            background: #1a1e24;
-            padding: 16px 24px;
-            border-radius: 40px;
-            border: 1px solid #2d323a;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: #b0c4d9;
-        }
-
-        .feature-item i {
-            color: #00ff9d;
         }
 
         footer {
@@ -329,7 +336,6 @@
             font-size: 12px;
             color: #3a4a5a;
             padding: 12px;
-            border-top: 1px solid #1e1e24;
         }
     </style>
 </head>
@@ -337,245 +343,283 @@
     <div class="header">
         <div class="logo-area">
             <i class="fas fa-brain logo-icon"></i>
-            <div class="site-title">StreetNeiro <span>· alpha</span></div>
+            <div class="site-title">StreetNeiro</div>
         </div>
-        <div class="model-badge">
-            <i class="fas fa-microchip"></i> DeepSeek / Gemini
+        <div style="display: flex; gap: 12px; align-items: center;">
+            <div class="api-status" id="apiStatus">
+                <span class="status-dot" id="statusDot"></span>
+                <span id="statusText">API не настроен</span>
+            </div>
+            <button class="settings-btn" id="settingsBtn">
+                <i class="fas fa-key"></i> Настроить API
+            </button>
+        </div>
+    </div>
+
+    <!-- Модальное окно для ввода API ключа -->
+    <div class="modal" id="apiModal">
+        <div class="modal-content">
+            <h3><i class="fas fa-key" style="margin-right: 10px;"></i>Введи API ключ Gemini</h3>
+            <p style="color: #8899aa; margin-bottom: 20px; font-size: 14px;">
+                1. Получи ключ на <a href="https://makersuite.google.com/app/apikey" target="_blank" style="color: #00ff9d;">Google AI Studio</a> (бесплатно)<br>
+                2. Вставь его сюда и нажми Сохранить
+            </p>
+            <input type="text" id="apiKeyInput" placeholder="AIzaSyA...">
+            <div class="modal-buttons">
+                <button class="modal-btn cancel-btn" id="cancelModal">Отмена</button>
+                <button class="modal-btn save-btn" id="saveApiKey">Сохранить</button>
+            </div>
         </div>
     </div>
 
     <div class="chat-container" id="chatContainer">
         <div class="messages" id="messages">
-            <!-- Приветственное сообщение от StreetNeiro -->
             <div class="message">
                 <div class="avatar ai-avatar"><i class="fas fa-robot"></i></div>
                 <div class="message-content">
-                    <p>Йо, я <strong>StreetNeiro</strong> — твой уличный AI-помощник по коду. На связи 24/7, без пафоса, только дело. Че пишем?</p>
-                    <pre><code class="language-javascript">// Могу набросать код, объяснить сложные темы
-// или просто поржать над багами. Погнали!</code></pre>
+                    <p>Йо, я <strong>StreetNeiro</strong> — живой AI помощник по коду.</p>
+                    <p>🔧 <strong>Сначала настрой API ключ</strong> (кнопка справа вверху), чтобы я мог реально отвечать.</p>
+                    <p>Потом спрашивай что угодно: код, отладка, объяснения — работаем!</p>
                 </div>
-            </div>
-            <!-- Подсказки возможностей -->
-            <div class="feature-list">
-                <div class="feature-item"><i class="fas fa-code"></i> Помощь с кодом</div>
-                <div class="feature-item"><i class="fas fa-bug"></i> Отладка</div>
-                <div class="feature-item"><i class="fas fa-rocket"></i> Оптимизация</div>
-                <div class="feature-item"><i class="fas fa-graduation-cap"></i> Объяснение</div>
             </div>
         </div>
     </div>
 
     <div class="input-area">
         <div class="input-wrapper">
-            <textarea id="userInput" placeholder="Спроси StreetNeiro... (например: 'Напиши функцию на Python для сортировки')" rows="1"></textarea>
-            <div class="action-buttons">
-                <button class="clear-btn" id="clearBtn" title="Очистить историю"><i class="fas fa-trash-alt"></i> <span>Очистить</span></button>
-                <button class="send-btn" id="sendBtn"><i class="fas fa-paper-plane"></i></button>
-            </div>
+            <textarea id="userInput" placeholder="Напиши вопрос про код..." rows="1" disabled></textarea>
+            <button class="send-btn" id="sendBtn" disabled><i class="fas fa-paper-plane"></i></button>
         </div>
+        <div id="errorMessage" class="error-message"></div>
         <footer>
-            StreetNeiro — уличный AI. Может ошибаться, проверяй важное.
+            StreetNeiro на реальном Gemini AI. Может ошибаться, проверяй код.
         </footer>
     </div>
 
     <script>
-        // Инициализируем подсветку кода
         hljs.highlightAll();
-
-        const chatContainer = document.getElementById('chatContainer');
-        const messagesDiv = document.getElementById('messages');
+        
+        // Элементы
+        const modal = document.getElementById('apiModal');
+        const settingsBtn = document.getElementById('settingsBtn');
+        const cancelModal = document.getElementById('cancelModal');
+        const saveApiKey = document.getElementById('saveApiKey');
+        const apiKeyInput = document.getElementById('apiKeyInput');
+        const statusDot = document.getElementById('statusDot');
+        const statusText = document.getElementById('statusText');
         const userInput = document.getElementById('userInput');
         const sendBtn = document.getElementById('sendBtn');
-        const clearBtn = document.getElementById('clearBtn');
+        const messagesDiv = document.getElementById('messages');
+        const chatContainer = document.getElementById('chatContainer');
+        const errorDiv = document.getElementById('errorMessage');
 
-        // Авто-расширение textarea
-        userInput.addEventListener('input', function() {
-            this.style.height = 'auto';
-            this.style.height = (this.scrollHeight) + 'px';
-            // Активация кнопки если есть текст
-            if (this.value.trim()) {
-                sendBtn.classList.add('active');
-            } else {
-                sendBtn.classList.remove('active');
+        // Состояние
+        let apiKey = localStorage.getItem('gemini_api_key') || '';
+
+        // Инициализация
+        if (apiKey) {
+            enableChat();
+        }
+
+        // Открыть модалку
+        settingsBtn.addEventListener('click', () => {
+            apiKeyInput.value = apiKey;
+            modal.classList.add('active');
+        });
+
+        // Закрыть модалку
+        cancelModal.addEventListener('click', () => {
+            modal.classList.remove('active');
+        });
+
+        // Сохранить ключ
+        saveApiKey.addEventListener('click', () => {
+            const newKey = apiKeyInput.value.trim();
+            if (newKey) {
+                apiKey = newKey;
+                localStorage.setItem('gemini_api_key', newKey);
+                enableChat();
+                modal.classList.remove('active');
+                addMessage('API ключ сохранен! Теперь я могу отвечать на вопросы. Спрашивай что угодно о программировании.', false);
             }
         });
 
-        // Функция добавления сообщения
+        // Включить чат
+        function enableChat() {
+            userInput.disabled = false;
+            sendBtn.disabled = false;
+            userInput.focus();
+            statusDot.className = 'status-dot connected';
+            statusText.textContent = 'API подключен';
+        }
+
+        // Добавить сообщение
         function addMessage(text, isUser = false) {
             const messageDiv = document.createElement('div');
             messageDiv.className = 'message';
 
-            const avatarDiv = document.createElement('div');
-            avatarDiv.className = `avatar ${isUser ? 'user-avatar' : 'ai-avatar'}`;
-            avatarDiv.innerHTML = isUser ? '<i class="fas fa-user"></i>' : '<i class="fas fa-robot"></i>';
+            const avatar = document.createElement('div');
+            avatar.className = `avatar ${isUser ? 'user-avatar' : 'ai-avatar'}`;
+            avatar.innerHTML = isUser ? '<i class="fas fa-user"></i>' : '<i class="fas fa-robot"></i>';
 
-            const contentDiv = document.createElement('div');
-            contentDiv.className = 'message-content';
+            const content = document.createElement('div');
+            content.className = 'message-content';
+            
+            // Форматируем ответ (код в ``` обрабатываем)
+            content.innerHTML = formatMessage(text);
 
-            // Если это сообщение пользователя — просто текст
-            if (isUser) {
-                contentDiv.innerHTML = `<p>${escapeHtml(text)}</p>`;
-            } else {
-                // Если AI — обрабатываем возможный код
-                contentDiv.innerHTML = markedAIStyle(text);
-                // Подсвечиваем код внутри
-                contentDiv.querySelectorAll('pre code').forEach((block) => {
-                    hljs.highlightElement(block);
-                });
-            }
-
-            messageDiv.appendChild(avatarDiv);
-            messageDiv.appendChild(contentDiv);
+            messageDiv.appendChild(avatar);
+            messageDiv.appendChild(content);
             messagesDiv.appendChild(messageDiv);
 
-            // Удаляем приветственные фичи если они есть и это не первое сообщение
-            const featureList = document.querySelector('.feature-list');
-            if (featureList && messagesDiv.children.length > 2) {
-                featureList.style.display = 'none';
-            }
+            // Подсветка кода
+            content.querySelectorAll('pre code').forEach(block => {
+                hljs.highlightElement(block);
+            });
 
             scrollToBottom();
         }
 
-        // Простой экранирование HTML
-        function escapeHtml(unsafe) {
-            return unsafe.replace(/[&<>"]/g, function(m) {
-                if (m === '&') return '&amp;';
-                if (m === '<') return '&lt;';
-                if (m === '>') return '&gt;';
-                if (m === '"') return '&quot;';
-                return m;
-            });
-        }
-
-        // Имитация форматирования AI-ответа с блоками кода (в реальности тут будет API)
-        function markedAIStyle(text) {
-            // Простейший парсер для блоков кода ``` ``` 
-            let parts = text.split(/(```[\s\S]*?```)/g);
+        // Форматирование сообщения (подсветка кода)
+        function formatMessage(text) {
+            // Ищем блоки кода ``` ```
+            const parts = text.split(/(```[\s\S]*?```)/g);
             return parts.map(part => {
                 if (part.startsWith('```') && part.endsWith('```')) {
-                    let code = part.slice(3, -3);
-                    let lang = code.split('\n')[0].trim() || 'plaintext';
-                    let codeContent = code.includes('\n') ? code.substring(code.indexOf('\n') + 1) : '';
-                    return `<pre><code class="language-${lang}">${escapeHtml(codeContent || lang)}</code></pre>`;
+                    const code = part.slice(3, -3);
+                    const firstLine = code.split('\n')[0];
+                    const lang = firstLine.trim() || 'plaintext';
+                    const codeContent = code.includes('\n') ? code.substring(code.indexOf('\n') + 1) : code;
+                    return `<pre><code class="language-${lang}">${escapeHtml(codeContent)}</code></pre>`;
                 } else {
-                    return part.split('\n').map(p => p.trim() ? `<p>${escapeHtml(p)}</p>` : '').join('');
+                    return part.split('\n').map(p => p ? `<p>${escapeHtml(p)}</p>` : '').join('');
                 }
             }).join('');
         }
 
-        // Показать индикатор печати
-        function showTypingIndicator() {
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Индикатор печати
+        function showTyping() {
             const indicator = document.createElement('div');
-            indicator.className = 'message typing-message';
+            indicator.className = 'message';
             indicator.id = 'typingIndicator';
             indicator.innerHTML = `
                 <div class="avatar ai-avatar"><i class="fas fa-robot"></i></div>
-                <div class="typing-indicator">
-                    <span></span><span></span><span></span>
-                </div>
+                <div class="typing-indicator"><span></span><span></span><span></span></div>
             `;
             messagesDiv.appendChild(indicator);
             scrollToBottom();
         }
 
-        function removeTypingIndicator() {
+        function removeTyping() {
             const indicator = document.getElementById('typingIndicator');
             if (indicator) indicator.remove();
         }
 
+        // Скролл вниз
         function scrollToBottom() {
             chatContainer.scrollTop = chatContainer.scrollHeight;
         }
 
-        // Имитация ответа AI (в реальности здесь будет вызов API DeepSeek/Gemini)
-        function getAIResponse(userMessage) {
-            showTypingIndicator();
+        // Отправка сообщения в Gemini API
+        async function sendToGemini(message) {
+            if (!apiKey) {
+                throw new Error('API ключ не настроен');
+            }
 
-            // Имитация задержки сети
-            setTimeout(() => {
-                removeTypingIndicator();
+            // Gemini API endpoint (используем gemini-pro)
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`;
 
-                // Здесь будет реальный запрос к API
-                let answer = '';
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    contents: [{
+                        parts: [{
+                            text: `Ты StreetNeiro — уличный AI помощник по программированию. Отвечаешь коротко, по делу, с примерами кода если нужно. Вопрос: ${message}`
+                        }]
+                    }]
+                })
+            });
 
-                if (userMessage.toLowerCase().includes('привет') || userMessage.toLowerCase().includes('здравствуй')) {
-                    answer = 'Привет! Готов помочь с кодом. Что сегодня пишем?';
-                } else if (userMessage.toLowerCase().includes('python') || userMessage.toLowerCase().includes('питон')) {
-                    answer = 'Python — отличный выбор! Вот пример функции, которая считает сумму чисел:\n\n```python\ndef sum_numbers(numbers):\n    return sum(numbers)\n\n# Пример использования:\nmy_list = [1, 2, 3, 4, 5]\nprint(sum_numbers(my_list))  # 15\n```\n\nЧто именно тебе нужно?';
-                } else if (userMessage.toLowerCase().includes('javascript') || userMessage.toLowerCase().includes('js')) {
-                    answer = 'JS в деле! Вот стрелочная функция:\n\n```javascript\nconst sumNumbers = (numbers) => {\n  return numbers.reduce((acc, curr) => acc + curr, 0);\n};\n\n// Однострочник\nconst sum = (arr) => arr.reduce((a, b) => a + b, 0);\n```\n\nЧто дальше?';
-                } else if (userMessage.toLowerCase().includes('html') || userMessage.toLowerCase().includes('css')) {
-                    answer = 'Верстка — база. Держи пример карточки:\n\n```html\n<div class=\"card\">\n  <h3>Заголовок</h3>\n  <p>Текст внутри карточки</p>\n  <button>Кнопка</button>\n</div>\n\n<style>\n.card {\n  border: 1px solid #ccc;\n  border-radius: 12px;\n  padding: 20px;\n  max-width: 300px;\n}\n</style>\n```';
-                } else {
-                    answer = `Понял, запрос: "${userMessage}".\n\nЧтобы дать точный ответ по коду, уточни:\n1. Какой язык программирования?\n2. Что именно нужно сделать?\n3. Есть ли примеры или ограничения?\n\nНапиши подробнее — и я набросаю код!`;
-                }
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.error?.message || 'Ошибка API');
+            }
 
-                addMessage(answer, false);
-            }, 1500);
+            const data = await response.json();
+            
+            if (data.candidates && data.candidates[0]?.content?.parts[0]?.text) {
+                return data.candidates[0].content.parts[0].text;
+            } else {
+                throw new Error('Пустой ответ от API');
+            }
         }
 
-        // Отправка сообщения
-        function sendMessage() {
+        // Обработка отправки
+        async function handleSend() {
             const message = userInput.value.trim();
-            if (!message) return;
+            if (!message || !apiKey) return;
 
-            // Добавляем сообщение пользователя
-            addMessage(message, true);
-            
-            // Очищаем поле ввода
+            // Очищаем поле
             userInput.value = '';
             userInput.style.height = 'auto';
-            sendBtn.classList.remove('active');
-
-            // Получаем ответ
-            getAIResponse(message);
+            
+            // Показываем сообщение пользователя
+            addMessage(message, true);
+            
+            // Показываем индикатор печати
+            showTyping();
+            
+            try {
+                // Отправляем в Gemini
+                const response = await sendToGemini(message);
+                
+                // Убираем индикатор
+                removeTyping();
+                
+                // Показываем ответ
+                addMessage(response, false);
+                
+            } catch (error) {
+                removeTyping();
+                errorDiv.textContent = `Ошибка: ${error.message}`;
+                setTimeout(() => errorDiv.textContent = '', 5000);
+                
+                addMessage(`Извини, ошибка: ${error.message}. Проверь API ключ или попробуй позже.`, false);
+            }
         }
 
-        // Обработчики событий
-        sendBtn.addEventListener('click', sendMessage);
+        // Слушатели событий
+        sendBtn.addEventListener('click', handleSend);
 
         userInput.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
-                sendMessage();
+                handleSend();
             }
         });
 
-        // Очистка истории
-        clearBtn.addEventListener('click', () => {
-            messagesDiv.innerHTML = '';
-            // Возвращаем приветственное сообщение и фичи
-            const welcomeMsg = document.createElement('div');
-            welcomeMsg.className = 'message';
-            welcomeMsg.innerHTML = `
-                <div class="avatar ai-avatar"><i class="fas fa-robot"></i></div>
-                <div class="message-content">
-                    <p>Йо, я <strong>StreetNeiro</strong> — твой уличный AI-помощник по коду. На связи 24/7, без пафоса, только дело. Че пишем?</p>
-                    <pre><code class="language-javascript">// Могу набросать код, объяснить сложные темы
-// или просто поржать над багами. Погнали!</code></pre>
-                </div>
-            `;
-            messagesDiv.appendChild(welcomeMsg);
-
-            const featureList = document.createElement('div');
-            featureList.className = 'feature-list';
-            featureList.innerHTML = `
-                <div class="feature-item"><i class="fas fa-code"></i> Помощь с кодом</div>
-                <div class="feature-item"><i class="fas fa-bug"></i> Отладка</div>
-                <div class="feature-item"><i class="fas fa-rocket"></i> Оптимизация</div>
-                <div class="feature-item"><i class="fas fa-graduation-cap"></i> Объяснение</div>
-            `;
-            messagesDiv.appendChild(featureList);
-
-            hljs.highlightAll();
-            userInput.focus();
+        // Авто-расширение textarea
+        userInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+            sendBtn.style.color = this.value.trim() ? '#00ff9d' : '#5d6a7a';
         });
 
-        // Фокус на поле ввода при загрузке
-        window.addEventListener('load', () => {
-            userInput.focus();
+        // Закрыть модалку по клику вне
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('active');
+            }
         });
     </script>
 </body>
-</html>
+    </html>
